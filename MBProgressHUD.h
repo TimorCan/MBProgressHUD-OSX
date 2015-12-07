@@ -1,12 +1,12 @@
 //
-//  MBProgressHUD.h
-//  Version 0.8 + dismissible + OSX 10.7+ option added by Wayne Fox 21 Apr 2014
-//  Created by Matej Bukovinski on 2.4.09.
+// MBProgresHUD.h
+// Created by vanelizarov © 2015
+//
 //
 
 // This code is distributed under the terms and conditions of the MIT license.
 
-// Copyright (c) 2013 Matej Bukovinski
+// Copyright © 2015 vanelizarov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -41,9 +41,9 @@
 /*
  NSProgressIndicator* indicator = [[[NSProgressIndicator alloc] initWithFrame:NSMakeRect(20, 20, 30, 30)] autorelease];
  [indicator setStyle:NSProgressIndicatorSpinningStyle];
- 
+
  https://developer.apple.com/library/mac/documentation/cocoa/conceptual/ProgIndic/Concepts/AboutProgIndic.html
- 
+
  */
 
 typedef enum {
@@ -708,19 +708,19 @@ enum {
 #else
     NSColor **_finColors;
 #endif
-    
+
     BOOL _isAnimating;
     BOOL _isFadingOut;
     NSTimer *_animationTimer;
 	NSThread *_animationThread;
-    
+
     NSColor *_foreColor;
     NSColor *_backColor;
     BOOL _drawsBackground;
-    
+
     BOOL _displayedWhenStopped;
     BOOL _usesThreadedAnimation;
-	
+
     // For determinate mode
     BOOL _isIndeterminate;
     double _currentValue;

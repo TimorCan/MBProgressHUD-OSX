@@ -1,7 +1,7 @@
 //
-// MBProgressHUD.m
-// Version 0.8 + dismissible + OSX 10.7+ option added by Wayne Fox 21 Apr 2014
-// Created by Matej Bukovinski on 2.4.09.
+// MBProgresHUD.m
+// Created by vanelizarov © 2015
+//
 //
 
 #import "MBProgressHUD.h"
@@ -331,7 +331,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
         self.autoresizingMask = NSViewAutoresizingFlexibleTopMargin | NSViewAutoresizingFlexibleBottomMargin
         | NSViewAutoresizingFlexibleLeftMargin | NSViewAutoresizingFlexibleRightMargin;
 #endif  // (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
-        
+
 		// Transparent background
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 		self.opaque = NO;
@@ -345,10 +345,10 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 		// Make it invisible for now
 		self.alphaValue = 0.0f;
 #endif  // (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
-        
+
 		taskInProgress = NO;
 		rotationTransform = CGAffineTransformIdentity;
-		
+
 		[self setupLabels];
 		// [self updateIndicators];
 		[self registerForKVO];
@@ -466,7 +466,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
             [self.delegate performSelector:@selector(hudWasHiddenAfterDelay:) withObject:self];
         }
     }
-    
+
 	[self hide:[animated boolValue]];
 }
 
@@ -577,7 +577,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 		} else if (animationType == MBProgressHUDAnimationZoomOut) {
 			self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
 		}
-        
+
 		self.alpha = 0.02f;
 		[UIView commitAnimations];
 	}
@@ -766,7 +766,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 	if (self.labelText) label.string = self.labelText;
 #endif  // (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	[self addSubview:label];
-	
+
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
 	detailsLabel.font = self.detailsLabelFont;
@@ -794,7 +794,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 	if (self.detailsLabelText) detailsLabel.string = self.detailsLabelText;
 #endif  // (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	[self addSubview:detailsLabel];
-    
+
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
     [self addGestureRecognizer:singleTapGesture];
 #endif  // (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
@@ -808,7 +808,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
     BOOL isActivityIndicator = [indicator isKindOfClass:[YRKSpinningProgressIndicator class]];
 #endif  // (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	BOOL isRoundIndicator = [indicator isKindOfClass:[MBRoundProgressView class]];
-	
+
 	if (mode == MBProgressHUDModeIndeterminate &&  !isActivityIndicator) {
 		// Update to indeterminate indicator
 		[indicator removeFromSuperview];
@@ -858,7 +858,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 
 - (void)layoutSubviews
 {
-	
+
 	// Entirely cover the parent view
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	UIView *parent = self.superview;
@@ -869,16 +869,16 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 		self.frame = parent.bounds;
 	}
 	CGRect bounds = self.bounds;
-	
+
 	// Determine the total widt and height needed
 	CGFloat maxWidth = bounds.size.width - 4 * margin;
 	CGSize totalSize = CGSizeZero;
-	
+
 	CGRect indicatorF = indicator.bounds;
 	indicatorF.size.width = MIN(indicatorF.size.width, maxWidth);
 	totalSize.width = MAX(totalSize.width, indicatorF.size.width);
 	totalSize.height += indicatorF.size.height;
-	
+
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	CGSize labelSize = MB_TEXTSIZE(label.text, label.font);
 #else   // !(TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
@@ -906,10 +906,10 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 	if (detailsLabelSize.height > 0.0f && (indicatorF.size.height > 0.0f || labelSize.height > 0.0f)) {
 		totalSize.height += kPadding;
 	}
-	
+
 	totalSize.width += 2 * margin;
 	totalSize.height += 2 * margin;
-	
+
 	// Position elements
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
    	CGFloat yPos = round(((bounds.size.height - totalSize.height) / 2)) + margin + yOffset;
@@ -929,7 +929,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 	indicator.frame = indicatorF;
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	yPos += indicatorF.size.height;
-	
+
 	if (labelSize.height > 0.0f && indicatorF.size.height > 0.0f) {
 		yPos += kPadding;
 	}
@@ -946,7 +946,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 	label.frame = labelF;
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	yPos += labelF.size.height;
-	
+
 	if (detailsLabelSize.height > 0.0f && (indicatorF.size.height > 0.0f || labelSize.height > 0.0f)) {
 		yPos += kPadding;
 	}
@@ -961,7 +961,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 	detailsLabelF.origin.x = round((bounds.size.width - detailsLabelSize.width) / 2) + xPos;
 	detailsLabelF.size = detailsLabelSize;
 	detailsLabel.frame = detailsLabelF;
-	
+
 	// Enforce minsize and quare rules
 	if (square) {
 		CGFloat max = MAX(totalSize.width, totalSize.height);
@@ -978,7 +978,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 	if (totalSize.height < minSize.height) {
 		totalSize.height = minSize.height;
 	}
-	
+
 	self.size = totalSize;
 }
 
@@ -1000,7 +1000,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
     [NSGraphicsContext saveGraphicsState];
     CGContextRef context =  [[NSGraphicsContext currentContext] graphicsPort];
 #endif  // (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
-    
+
 	if (self.dimBackground) {
 		//Gradient colours
 		size_t gradLocationsNum = 2;
@@ -1019,7 +1019,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 									 kCGGradientDrawsAfterEndLocation);
 		CGGradientRelease(gradient);
 	}
-    
+
     // Set background rect color
     if (self.color) {
         if (context > 0) {
@@ -1035,8 +1035,8 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
             CGContextSetGrayFillColor(context, 0.0f, self.opacity);
         }
     }
-    
-	
+
+
 	// Center HUD
 	CGRect allRect = self.bounds;
 
@@ -1175,7 +1175,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 		self.bounds = self.superview.bounds;
 		[self setNeedsDisplay];
 	}
-	
+
 	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 	CGFloat radians = 0;
 	if (UIInterfaceOrientationIsLandscape(orientation)) {
@@ -1188,7 +1188,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 		else { radians = 0; }
 	}
 	rotationTransform = CGAffineTransformMakeRotation(radians);
-	
+
 	if (animated) {
 		[UIView beginAnimations:nil context:nil];
 	}
@@ -1270,7 +1270,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 
 - (void)drawRect:(CGRect)rect
 {
-	
+
 	CGRect allRect = self.bounds;
 	CGRect circleRect = CGRectInset(allRect, 2.0f, 2.0f);
 
@@ -1279,7 +1279,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 #else   // !(TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
     CGContextRef context =  [[NSGraphicsContext currentContext] graphicsPort];
 #endif  // (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
-	
+
 	if (_annular) {
 		// Draw background
 		CGFloat lineWidth = 5.0f;
@@ -1452,14 +1452,14 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 {
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	CGContextRef context = UIGraphicsGetCurrentContext();
-	
+
 	// setup properties
 	CGContextSetLineWidth(context, 2);
 	CGContextSetStrokeColorWithColor(context,[_lineColor CGColor]);
 	CGContextSetFillColorWithColor(context, [_progressRemainingColor CGColor]);
 #else   // !(TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	CGContextRef context =  [[NSGraphicsContext currentContext] graphicsPort];
-	
+
 	// setup properties
 	CGContextSetLineWidth(context, 2);
 	CGContextSetStrokeColorWithColor(context,[self NSColorToCGColor:_lineColor]);
@@ -1478,7 +1478,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 	CGContextAddLineToPoint(context, radius + 2, rect.size.height - 2);
 	CGContextAddArcToPoint(context, 2, rect.size.height - 2, 2, rect.size.height/2, radius);
 	CGContextFillPath(context);
-	
+
 	// draw progress background
 	CGContextMoveToPoint(context, 2, rect.size.height/2);
 	CGContextAddArcToPoint(context, 2, 2, radius + 2, 2, radius);
@@ -1488,7 +1488,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 	CGContextAddLineToPoint(context, radius + 2, rect.size.height - 2);
 	CGContextAddArcToPoint(context, 2, rect.size.height - 2, 2, rect.size.height/2, radius);
 	CGContextStrokePath(context);
-	
+
 	// setup to draw progress color
 #if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	CGContextSetFillColorWithColor(context, [_progressColor CGColor]);
@@ -1498,7 +1498,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 #endif  // (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 	radius = radius - 2;
 	float amount = self.progress * rect.size.width;
-	
+
 	// if progress is in the middle area
 	if (amount >= radius + 4 && amount <= (rect.size.width - radius - 4)) {
 		// top
@@ -1506,20 +1506,20 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
 		CGContextAddLineToPoint(context, amount, 4);
 		CGContextAddLineToPoint(context, amount, radius + 4);
-		
+
 		// bottom
 		CGContextMoveToPoint(context, 4, rect.size.height/2);
 		CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
 		CGContextAddLineToPoint(context, amount, rect.size.height - 4);
 		CGContextAddLineToPoint(context, amount, radius + 4);
-		
+
 		CGContextFillPath(context);
 	}
-	
+
 	// progress is in the right arc
 	else if (amount > radius + 4) {
 		float x = amount - (rect.size.width - radius - 4);
-		
+
 		// top
 		CGContextMoveToPoint(context, 4, rect.size.height/2);
 		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
@@ -1528,7 +1528,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 		if (isnan(angle)) angle = 0;
 		CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, M_PI, angle, 0);
 		CGContextAddLineToPoint(context, amount, rect.size.height/2);
-		
+
 		// bottom
 		CGContextMoveToPoint(context, 4, rect.size.height/2);
 		CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
@@ -1537,22 +1537,22 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 		if (isnan(angle)) angle = 0;
 		CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, -M_PI, angle, 1);
 		CGContextAddLineToPoint(context, amount, rect.size.height/2);
-		
+
 		CGContextFillPath(context);
 	}
-	
+
 	// progress is in the left arc
 	else if (amount < radius + 4 && amount > 0) {
 		// top
 		CGContextMoveToPoint(context, 4, rect.size.height/2);
 		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
 		CGContextAddLineToPoint(context, radius + 4, rect.size.height/2);
-		
+
 		// bottom
 		CGContextMoveToPoint(context, 4, rect.size.height/2);
 		CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
 		CGContextAddLineToPoint(context, radius + 4, rect.size.height/2);
-		
+
 		CGContextFillPath(context);
 	}
 }
@@ -1660,17 +1660,17 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 #else
         _finColors = calloc(_numFins, sizeof(NSColor*));
 #endif
-        
+
         _isAnimating = NO;
         _isFadingOut = NO;
-        
+
         _foreColor = MB_RETAIN([NSColor blackColor]);
         _backColor = MB_RETAIN([NSColor clearColor]);
         _drawsBackground = NO;
-        
+
 		_displayedWhenStopped = YES;
         _usesThreadedAnimation = YES;
-        
+
         _isIndeterminate = YES;
         _currentValue = 0.0;
         _maxValue = 100.0;
@@ -1699,7 +1699,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 - (void)viewDidMoveToWindow
 {
     [super viewDidMoveToWindow];
-    
+
     if ([self window] == nil) {
         // No window?  View hierarchy may be going away.  Dispose timer to clear circular retain of timer to self to timer.
         [self actuallyStopAnimation];
@@ -1718,19 +1718,19 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
         theMaxSize = size.height;
     else
         theMaxSize = size.width;
-    
+
     // fill the background, if set
     if(_drawsBackground) {
         [_backColor set];
         [NSBezierPath fillRect:[self bounds]];
     }
-    
+
     CGContextRef currentContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
     [NSGraphicsContext saveGraphicsState];
-    
+
     // Move the CTM so 0,0 is at the center of our bounds
     CGContextTranslateCTM(currentContext,[self bounds].size.width/2,[self bounds].size.height/2);
-    
+
     if (_isIndeterminate) {
         NSBezierPath *path = [[NSBezierPath alloc] init];
         CGFloat lineWidth = 0.0859375 * theMaxSize; // should be 2.75 for 32x32
@@ -1740,7 +1740,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
         [path setLineCapStyle:NSRoundLineCapStyle];
         [path moveToPoint:NSMakePoint(0,lineStart)];
         [path lineToPoint:NSMakePoint(0,lineEnd)];
-        
+
         for (int i=0; i<_numFins; i++) {
             if(_isAnimating) {
 #if __has_feature(objc_arc)
@@ -1752,9 +1752,9 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
             else {
                 [[_foreColor colorWithAlphaComponent:kAlphaWhenStopped] set];
             }
-            
+
             [path stroke];
-            
+
             // we draw all the fins by rotating the CTM, then just redraw the same segment again
             CGContextRotateCTM(currentContext, 6.282185/_numFins);
         }
@@ -1782,7 +1782,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
         [path release];
 #endif
     }
-    
+
     [NSGraphicsContext restoreGraphicsState];
 }
 
@@ -1793,7 +1793,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 {
     if (!_isIndeterminate) return;
     if (_isAnimating && !_isFadingOut) return;
-	
+
     [self actuallyStartAnimation];
 }
 
@@ -1821,7 +1821,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
         [_foreColor release];
 #endif
         _foreColor = MB_RETAIN(value);
-        
+
         // generate all the fin colors, with the alpha components
         // they already have
         for (int i=0; i<_numFins; i++) {
@@ -1837,7 +1837,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
             _finColors[i] = MB_RETAIN([_foreColor colorWithAlphaComponent:alpha]);
 #endif
         }
-        
+
         [self setNeedsDisplay:YES];
     }
 }
@@ -1888,7 +1888,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 {
     if (_usesThreadedAnimation != useThreaded) {
         _usesThreadedAnimation = useThreaded;
-        
+
         if (_isAnimating) {
             // restart the timer to use the new mode
             [self stopAnimation:self];
@@ -1900,7 +1900,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 - (void)setDisplayedWhenStopped:(BOOL)displayedWhenStopped
 {
 	_displayedWhenStopped = displayedWhenStopped;
-	
+
 	// Show/hide ourself if necessary
 	if (!_isAnimating) {
 		if (_displayedWhenStopped && [self isHidden]) {
@@ -1923,7 +1923,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
     else {
         _position = _numFins - 1;
     }
-    
+
     // update the colors
     CGFloat minAlpha = _displayedWhenStopped ? kAlphaWhenStopped : 0.01;
     for (int i=0; i<_numFins; i++) {
@@ -1945,7 +1945,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
         [oldColor release];
 #endif
     }
-    
+
     if (_isFadingOut) {
         // check if the fadeout is done
         BOOL done = YES;
@@ -1978,7 +1978,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
         [oldColor release];
 #endif
     }
-    
+
     if (_usesThreadedAnimation) {
         // draw now instead of waiting for setNeedsDisplay (that's the whole reason
         // we're animating from background thread)
@@ -1993,16 +1993,16 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 {
     // Just to be safe kill any existing timer.
     [self actuallyStopAnimation];
-    
+
     _isAnimating = YES;
     _isFadingOut = NO;
-    
+
     // always start from the top
     _position = 1;
-    
+
 	if (!_displayedWhenStopped)
 		[self setHidden:NO];
-    
+
     if ([self window]) {
         // Why animate if not visible?  viewDidMoveToWindow will re-call this method when needed.
         if (_usesThreadedAnimation) {
@@ -2015,7 +2015,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
                                                               selector:@selector(updateFrame:)
                                                               userInfo:nil
                                                                repeats:YES]);
-            
+
             [[NSRunLoop currentRunLoop] addTimer:_animationTimer forMode:NSRunLoopCommonModes];
             [[NSRunLoop currentRunLoop] addTimer:_animationTimer forMode:NSDefaultRunLoopMode];
             [[NSRunLoop currentRunLoop] addTimer:_animationTimer forMode:NSEventTrackingRunLoopMode];
@@ -2027,10 +2027,10 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 {
     _isAnimating = NO;
     _isFadingOut = NO;
-    
+
     if (!_displayedWhenStopped)
         [self setHidden:YES];
-    
+
     if (_animationThread) {
         // we were using threaded animation
 		[_animationThread cancel];
@@ -2080,12 +2080,12 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 #endif
         // Set up the animation speed to subtly change with size > 32.
         // int animationDelay = 38000 + (2000 * ([self bounds].size.height / 32));
-        
+
         // Set the rev per minute here
         int omega = 100; // RPM
         int animationDelay = 60*1000000/omega/_numFins;
         int poolFlushCounter = 0;
-        
+
         do {
             [self updateFrame:nil];
             usleep(animationDelay);
@@ -2097,7 +2097,7 @@ static const CGFloat kDetailsLabelFontSize = 12.0f;
 #endif
                 poolFlushCounter = 0;
             }
-        } while (![[NSThread currentThread] isCancelled]); 
+        } while (![[NSThread currentThread] isCancelled]);
 #if __has_feature(objc_arc)
     }
 #else
